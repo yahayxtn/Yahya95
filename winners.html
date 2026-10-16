@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="fr" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JR MME // African Winners - Espace Membres</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        clubRed: '#DC2626',
+                        darkRed: '#991B1B',
+                        bloodRed: '#7F1D1D',
+                        pitchBlack: '#09090B',
+                        cardDark: '#121216',
+                        borderDark: '#27272A'
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- FontAwesome pour les icones -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Teko:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; background-color: #09090B; color: #F4F4F5; }
+        .font-teko { font-family: 'Teko', sans-serif; letter-spacing: 0.05em; }
+        .ultras-gradient { background: linear-gradient(135deg, #09090B 0%, #18181B 50%, #7F1D1D 100%); }
+        .glow-red { box-shadow: 0 0 25px rgba(220, 38, 38, 0.25); }
+        .glow-red-strong { box-shadow: 0 0 35px rgba(220, 38, 38, 0.5); }
+        .scanlines {
+            background: linear-gradient(rgba(18, 18, 22, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.03), rgba(0, 255, 0, 0.01), rgba(0, 0, 255, 0.03));
+            background-size: 100% 4px, 6px 100%;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col selection:bg-clubRed selection:text-white">
+
+    <!-- Top Bar / En-tête Ultras -->
+    <header class="border-b border-borderDark bg-pitchBlack/90 backdrop-blur sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+            <div class="flex items-center space-x-3">
+                <div class="w-12 h-12 bg-clubRed rounded flex items-center justify-center glow-red">
+                    <i class="fa-solid fa-skull text-white text-2xl"></i>
+                </div>
+                <div>
+                    <h1 class="font-teko text-3xl sm:text-4xl uppercase tracking-wider text-white leading-none">JR MME <span class="text-clubRed">// AW</span></h1>
+                    <p class="text-xs text-zinc-400 font-mono tracking-widest uppercase">African Winners - Membres Officiels</p>
+                </div>
+            </div>
+            <div class="flex items-center space-x-4">
+                <div class="hidden sm:flex items-center space-x-2 bg-cardDark border border-borderDark px-3 py-1.5 rounded text-xs font-mono">
+                    <span class="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse"></span>
+                    <span class="text-zinc-300">STATUT : ACCÈS PUBLIC EN LIGNE</span>
+                </div>
+                <button onclick="switchTab('register')" id="navRegBtn" class="bg-clubRed hover:bg-darkRed text-white px-4 py-2 rounded font-teko text-xl tracking-wider transition uppercase shadow-lg shadow-clubRed/20">
+                    <i class="fa-solid fa-user-plus mr-1"></i> Inscription
+                </button>
+                <button onclick="switchTab('dashboard')" id="navDashBtn" class="bg-cardDark hover:bg-borderDark text-zinc-200 border border-borderDark px-4 py-2 rounded font-teko text-xl tracking-wider transition uppercase">
+                    <i class="fa-solid fa-chart-pie mr-1"></i> Dashboard (<span id="memberCountBadge">0</span>)
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content Container -->
+    <main class="flex-grow max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8">
+
+        <!-- SECTION 1 : FORMULAIRE D'INSCRIPTION -->
+        <section id="registerSection" class="max-w-2xl mx-auto">
+            <div class="bg-cardDark border border-borderDark rounded-xl p-6 sm:p-8 glow-red relative overflow-hidden">
+                <div class="absolute top-0 right-0 w-32 h-32 bg-clubRed/10 rounded-full blur-3xl pointer-events-none"></div>
+                
+                <div class="text-center mb-8">
+                    <span class="inline-block bg-clubRed/20 text-clubRed border border-clubRed/30 px-3 py-1 rounded text-xs font-mono uppercase tracking-widest mb-2">Formulaire Ouvert</span>
+                    <h2 class="font-teko text-4xl sm:text-5xl uppercase tracking-wide text-white">Rejoindre les rangs</h2>
+                    <p class="text-zinc-400 text-sm mt-1">Remplis le formulaire ci-dessous pour valider ton enregistrement au sein du groupe JR MME.</p>
+                </div>
+
+                <form id="memberForm" onsubmit="handleFormSubmit(event)" class="space-y-5">
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                        <div>
+                            <label class="block text-xs font-mono uppercase text-zinc-400 mb-1.5"><i class="fa-solid fa-user text-clubRed mr-1"></i> Nom *</label>
+                            <input type="text" id="lastName" required placeholder="Ex: Trabelsi" class="w-full bg-pitchBlack border border-borderDark rounded px-4 py-3 text-white placeholder-zinc-600 focus:outline-none focus:border-clubRed transition">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-mono uppercase text-zinc-400 mb-1.5"><i class="fa-solid fa-user text-clubRed mr-1"></i> Prénom *</label>
+                            <input type="text" id="firstName" required placeholder="Ex: Karim" class="w-full bg-pitchBlack border border-borderDark rounded px-4 py-3 text-white placeholder-zinc-600 focus:outline-none focus:border-clubRed transition">
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                        <div>
+                            <label class="block text-xs font-mono uppercase text-zinc-400 mb-1.5"><i class="fa-solid fa-cake-candles text-clubRed mr-1"></i> Âge *</label>
+                            <input type="number" id="age" min="14" max="99" required placeholder="Ex: 22" class="w-full bg-pitchBlack border border-borderDark rounded px-4 py-3 text-white placeholder-zinc-600 focus:outline-none focus:border-clubRed transition">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-mono uppercase text-zinc-400 mb-1.5"><i class="fa-solid fa-location-dot text-clubRed mr-1"></i> Lieu / Quartier / Ville *</label>
+                            <input type="text" id="location" required placeholder="Ex: Tunis / Bab Souika / Sousse" class="w-full bg-pitchBlack border border-borderDark rounded px-4 py-3 text-white placeholder-zinc-600 focus:outline-none focus:border-clubRed transition">
+                        </div>
+                    </div>
+
+                    <div class="pt-4">
+                        <button type="submit" class="w-full bg-gradient-to-r from-clubRed to-darkRed hover:from-darkRed hover:to-clubRed text-white font-teko text-2xl tracking-wider py-4 rounded transition uppercase shadow-lg glow-red flex items-center justify-center space-x-2">
+                            <i class="fa-solid fa-shield-halved"></i>
+                            <span>Valider l'inscription JR MME</span>
+                        </button>
+                    </div>
+                </form>
+
+                <!-- Message de succès -->
+                <div id="successAlert" class="hidden mt-6 bg-emerald-950/80 border border-emerald-600/50 p-4 rounded text-emerald-300 text-center text-sm font-mono">
+                    <i class="fa-solid fa-circle-check text-emerald-400 mr-2 text-lg"></i> Inscription enregistrée avec succès ! Bienvenue dans la famille.
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 2 : DASHBOARD & LISTE DES MEMBRES -->
+        <section id="dashboardSection" class="hidden space-y-6">
+            <!-- Statistiques rapides -->
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                <div class="bg-cardDark border border-borderDark p-5 rounded-xl">
+                    <p class="text-xs font-mono uppercase text-zinc-400">Total Membres</p>
+                    <p id="statTotal" class="font-teko text-5xl text-white mt-1">0</p>
+                </div>
+                <div class="bg-cardDark border border-borderDark p-5 rounded-xl">
+                    <p class="text-xs font-mono uppercase text-zinc-400">Âge Moyen</p>
+                    <p id="statAvgAge" class="font-teko text-5xl text-clubRed mt-1">0 ans</p>
+                </div>
+                <div class="bg-cardDark border border-borderDark p-5 rounded-xl">
+                    <p class="text-xs font-mono uppercase text-zinc-400">Villes / Lieux Représentés</p>
+                    <p id="statLocations" class="font-teko text-5xl text-white mt-1">0</p>
+                </div>
+            </div>
+
+            <!-- Tableau et outils de gestion -->
+            <div class="bg-cardDark border border-borderDark rounded-xl overflow-hidden">
+                <div class="p-5 border-b border-borderDark flex flex-col sm:flex-row items-center justify-between gap-4">
+                    <div class="relative w-full sm:w-80">
+                        <i class="fa-solid fa-search absolute left-3.5 top-3.5 text-zinc-500 text-sm"></i>
+                        <input type="text" id="searchInput" oninput="renderTable()" placeholder="Rechercher par nom, prénom, lieu..." class="w-full bg-pitchBlack border border-borderDark rounded pl-10 pr-4 py-2.5 text-sm text-white placeholder-zinc-600 focus:outline-none focus:border-clubRed transition">
+                    </div>
+                    <div class="flex items-center space-x-3 w-full sm:w-auto justify-end">
+                        <button onclick="exportJSON()" class="bg-pitchBlack hover:bg-borderDark border border-borderDark text-zinc-300 px-4 py-2 rounded text-xs font-mono uppercase transition flex items-center space-x-2">
+                            <i class="fa-solid fa-download text-clubRed"></i>
+                            <span>Exporter JSON</span>
+                        </button>
+                        <button onclick="clearAllMembers()" class="bg-pitchBlack hover:bg-red-950/40 border border-red-900/40 text-red-400 px-4 py-2 rounded text-xs font-mono uppercase transition flex items-center space-x-2">
+                            <i class="fa-solid fa-trash-can"></i>
+                            <span>Tout effacer</span>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left border-collapse">
+                        <thead>
+                            <tr class="bg-pitchBlack text-zinc-400 font-mono text-xs uppercase border-b border-borderDark">
+                                <th class="py-3 px-4">#</th>
+                                <th class="py-3 px-4">Nom & Prénom</th>
+                                <th class="py-3 px-4">Âge</th>
+                                <th class="py-3 px-4">Lieu</th>
+                                <th class="py-3 px-4 text-right">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="memberTableBody" class="divide-y divide-borderDark text-sm">
+                            <!-- Rempli dynamiquement en JS -->
+                        </tbody>
+                    </table>
+                </div>
+                <!-- État vide -->
+                <div id="emptyState" class="hidden py-16 text-center">
+                    <i class="fa-solid fa-users-slash text-4xl text-zinc-600 mb-3"></i>
+                    <p class="text-zinc-400 font-mono text-sm">Aucun membre enregistré pour le moment.</p>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="border-t border-borderDark bg-pitchBlack py-6 text-center text-xs font-mono text-zinc-500">
+        <p>JR MME // AFRICAN WINNERS © 2026 — TOUS DROITS RÉSERVÉS</p>
+    </footer>
+
+    <!-- Script de gestion de l'application -->
+    <script>
+        // Charger les membres depuis le localStorage
+        let members = JSON.parse(localStorage.getItem('jr_mme_members')) || [
+            { id: 1, firstName: "Mehdi", lastName: "Cherif", age: 24, location: "Tunis" },
+            { id: 2, firstName: "Bilel", lastName: "Ayari", age: 21, location: "Radès" }
+        ];
+
+        function saveMembers() {
+            localStorage.setItem('jr_mme_members', JSON.stringify(members));
+            updateBadges();
+        }
+
+        function updateBadges() {
+            document.getElementById('memberCountBadge').innerText = members.length;
+            document.getElementById('statTotal').innerText = members.length;
+
+            if (members.length > 0) {
+                const totalAge = members.reduce((sum, m) => sum + parseInt(m.age), 0);
+                document.getElementById('statAvgAge').innerText = Math.round(totalAge / members.length) + ' ans';
+
+                const uniqueLocations = new Set(members.map(m => m.location.trim().toLowerCase()));
+                document.getElementById('statLocations').innerText = uniqueLocations.size;
+            } else {
+                document.getElementById('statAvgAge').innerText = '0 ans';
+                document.getElementById('statLocations').innerText = '0';
+            }
+        }
+
+        function switchTab(tab) {
+            const regSec = document.getElementById('registerSection');
+            const dashSec = document.getElementById('dashboardSection');
+            const regBtn = document.getElementById('navRegBtn');
+            const dashBtn = document.getElementById('navDashBtn');
+
+            if (tab === 'register') {
+                regSec.classList.remove('hidden');
+                dashSec.classList.add('hidden');
+                regBtn.className = "bg-clubRed hover:bg-darkRed text-white px-4 py-2 rounded font-teko text-xl tracking-wider transition uppercase shadow-lg shadow-clubRed/20";
+                dashBtn.className = "bg-cardDark hover:bg-borderDark text-zinc-200 border border-borderDark px-4 py-2 rounded font-teko text-xl tracking-wider transition uppercase";
+            } else {
+                regSec.classList.add('hidden');
+                dashSec.classList.remove('hidden');
+                dashBtn.className = "bg-clubRed hover:bg-darkRed text-white px-4 py-2 rounded font-teko text-xl tracking-wider transition uppercase shadow-lg shadow-clubRed/20";
+                regBtn.className = "bg-cardDark hover:bg-borderDark text-zinc-200 border border-borderDark px-4 py-2 rounded font-teko text-xl tracking-wider transition uppercase";
+                renderTable();
+            }
+        }
+
+        function handleFormSubmit(e) {
+            e.preventDefault();
+            const newMember = {
+                id: Date.now(),
+                lastName: document.getElementById('lastName').value.trim(),
+                firstName: document.getElementById('firstName').value.trim(),
+                age: parseInt(document.getElementById('age').value),
+                location: document.getElementById('location').value.trim()
+            };
+
+            members.unshift(newMember);
+            saveMembers();
+
+            // Réinitialiser le formulaire
+            document.getElementById('memberForm').reset();
+            
+            // Afficher l'alerte de succès
+            const alertBox = document.getElementById('successAlert');
+            alertBox.classList.remove('hidden');
+            setTimeout(() => {
+                alertBox.classList.add('hidden');
+            }, 4000);
+        }
+
+        function renderTable() {
+            const tbody = document.getElementById('memberTableBody');
+            const emptyState = document.getElementById('emptyState');
+            const searchQuery = document.getElementById('searchInput').value.toLowerCase();
+
+            const filtered = members.filter(m => 
+                m.lastName.toLowerCase().includes(searchQuery) ||
+                m.firstName.toLowerCase().includes(searchQuery) ||
+                m.location.toLowerCase().includes(searchQuery)
+            );
+
+            tbody.innerHTML = '';
+
+            if (filtered.length === 0) {
+                emptyState.classList.remove('hidden');
+                return;
+            } else {
+                emptyState.classList.add('hidden');
+            }
+
+            filtered.forEach((m, index) => {
+                const tr = document.createElement('tr');
+                tr.className = "hover:bg-zinc-900/50 transition";
+                tr.innerHTML = `
+                    <td class="py-3 px-4 font-mono text-xs text-zinc-500">#${index + 1}</td>
+                    <td class="py-3 px-4 font-semibold text-white">${escapeHtml(m.lastName)} ${escapeHtml(m.firstName)}</td>
+                    <td class="py-3 px-4 text-zinc-300">${m.age} ans</td>
+                    <td class="py-3 px-4"><span class="bg-pitchBlack border border-borderDark px-2.5 py-1 rounded text-xs font-mono text-clubRed">${escapeHtml(m.location)}</span></td>
+                    <td class="py-3 px-4 text-right">
+                        <button onclick="deleteMember(${m.id})" class="text-zinc-500 hover:text-red-500 transition p-1.5" title="Supprimer">
+                            <i class="fa-solid fa-trash-can"></i>
+                        </button>
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        function deleteMember(id) {
+            if (confirm("Voulez-vous vraiment supprimer ce membre ?")) {
+                members = members.filter(m => m.id !== id);
+                saveMembers();
+                renderTable();
+            }
+        }
+
+        function clearAllMembers() {
+            if (confirm("ATTENTION : Voulez-vous effacer toute la liste des membres ?")) {
+                members = [];
+                saveMembers();
+                renderTable();
+            }
+        }
+
+        function exportJSON() {
+            const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(members, null, 2));
+            const downloadAnchor = document.createElement('a');
+            downloadAnchor.setAttribute("href", dataStr);
+            downloadAnchor.setAttribute("download", "jr_mme_african_winners_membres.json");
+            document.body.appendChild(downloadAnchor);
+            downloadAnchor.click();
+            downloadAnchor.remove();
+        }
+
+        function escapeHtml(str) {
+            return str.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#039;");
+        }
+
+        // Initialisation au chargement
+        updateBadges();
+    </script>
+</body>
+</html>
